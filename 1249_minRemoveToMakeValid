@@ -1,0 +1,68 @@
+# time complexity: O(n)
+# space complexity: O(n)
+class Solution:
+    def minRemoveToMakeValid(self, s: str) -> str:
+        l = len(s)
+        left_count = 0
+        right_count = 0
+        left_rmv = []
+        right_rmv = []
+        res = []
+        
+        # left
+        for i in range(l):
+            if s[i] == "(":
+                left_count = left_count + 1
+            if s[i] == ")":
+                left_count = left_count - 1
+            if left_count < 0: 
+                left_rmv.append(i)
+                left_count = 0
+        
+        # right
+        for i in range(l-1, -1, -1):
+            if s[i] == ")":
+                right_count = right_count + 1
+            if s[i] == "(":
+                right_count = right_count - 1
+            if right_count < 0: 
+                right_count = 0
+                right_rmv.append(i)
+                
+        if len(right_rmv) + len(left_rmv) == 0: return s
+        
+        res_i = sorted(list(set(list(range(l)))-set(right_rmv)-set(left_rmv)))
+        
+        for i in res_i:
+            res.append(s[i])
+            
+        return "".join(res)
+    
+#better solution
+# Convert string to list, because String is an immutable data structure in Python and it's much easier and memory-efficient to deal with a list for this task.
+# Iterate through list
+# Keep track of indices with open parentheses in the stack. In other words, when we come across open parenthesis we add an index to the stack.
+# When we come across close parenthesis we pop an element from the stack. If the stack is empty we replace current list element with an empty string
+# After iteration, we replace all indices we have in the stack with empty strings, because we don't have close parentheses for them.
+# Convert list to string and return
+
+# time complexity: O(n)
+# space complexity: O(n)
+class Solution:
+    def minRemoveToMakeValid(self, s: str) -> str:
+        s_list = list(s) #string is immutable data structure
+        stack = []
+        
+        for c, cur in enumerate(s_list):
+            if cur =="(":
+                stack.append(c)
+            elif cur == ")":
+                if stack:
+                    stack.pop() #remove the paired "("
+                else:
+                    s_list[c] = "" #remove the redundent ")"
+            
+        while stack: #save more space
+            s_list[stack.pop()] = "" #remove the redundent "("
+            
+        return "".join(s_list)
