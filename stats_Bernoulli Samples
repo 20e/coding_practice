@@ -1,0 +1,37 @@
+# [Statistics] Bernoulli Samples: Stripe [Medium]
+
+Consider a Bernoulli random variable with parameter p. Say you observe the following samples: [1, 0, 1, 1, 1]. What is the log likelihood function for p and what is the MLE of p?
+
+## Answer
+
+Bernoulli(p)
+
+pmf = 1 - p , 0, p, 1
+
+log likelihood = log(p^4*(1-p)) = 4log(p)+log(1-p)
+
+the derivative of [4log(p)+log(1-p)] = 0
+
+4/p + 1/1-p = 0
+
+4-4p+p = 0 => p = 4/3
+
+## Solution
+
+### step one: get the formula of log likelihood for {x_1, ... , x_n} ,not stopping at n = 4
+
+log_likelihood \proportion_to the product of log(p^(x_i) * (1-p)^(1-x_i)), i = 1,..,n
+
+\proportion_to sum(x_i * log(p) + (1-x_i) * log(1-p)), i = 1 ,..., n
+
+### step two: get the formula of MLE using derivative
+
+derivative of log-likelihood regarding to p = sum(x_i)/p + (-1）* sum(1-x_i)/(1-p) = 0
+
+sum(x_i) - sum(x_i) * p - sum(1) * p + sum(x_i) * p = 0
+
+n * p = sum(x_i)
+
+p = sum(x_i) / n
+
+estimate = 4 / 5
