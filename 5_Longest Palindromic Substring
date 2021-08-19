@@ -1,0 +1,39 @@
+# expand from the center
+# time complexity: O(n^2)
+# space complexity: O(1)
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        s_list = list(s)
+        n_s = "*".join(s)
+        res_l = 0
+        res_r = 0
+        len_res = 1
+        l_n = len(n_s)
+        
+        for i in range(l_n):
+            if i+1<= l_n-i: l_check = i+1
+            else: l_check = l_n - i
+            tmp = 0
+            for j in range(l_check):
+                if n_s[i-j] == n_s[i+j]:
+                    tmp = tmp + 2
+                    if (tmp > len_res) or ((tmp == len_res) and (n_s[i-j]!="*")):
+                        len_res = tmp
+                        res_l = i-j
+                        res_r = i+j
+                else: 
+                    break
+                    
+        res = []
+        for i in n_s[res_l:(res_r+1)]:
+            if i != "*":
+                res.append(i)
+        len_res = len(res)
+        print(len_res)
+        
+        return "".join(res)
+    
+# manacher's algorithm
+# time complexity: O(n)
+# https://www.youtube.com/watch?v=nbTSfrEfo6M
+# https://en.wikipedia.org/wiki/Longest_palindromic_substring#Manacher's_algorithm
