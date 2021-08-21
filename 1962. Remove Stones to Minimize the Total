@@ -1,0 +1,23 @@
+# idea: heap / priority queue
+# # time complexity: O(klogn+n)
+# # space complexity: O(n)
+class Solution:
+    def minStoneSum(self, piles: List[int], k: int) -> int:
+        neg_p = [-p for p in piles]
+        heapq.heapify(neg_p)
+        for i in range(k):
+            heapq.heapreplace(neg_p, floor(neg_p[0]/2))
+        return -sum(neg_p)
+    
+# # time complexity of heapify = O(log n)
+# # https://medium.com/@angeloacebedo/run-time-analysis-heap-sort-8b81d6403508
+    
+# time complexity: O(k^2*logk+n)
+class Solution:
+    def minStoneSum(self, piles: List[int], k: int) -> int:
+        c_piles = sorted(piles, reverse = True)
+        for i in range(k):
+            c_piles = sorted(c_piles, reverse = True)
+            c_piles[0] =  c_piles[0] - floor(c_piles[0]/2)
+        return sum(c_piles)
+    
