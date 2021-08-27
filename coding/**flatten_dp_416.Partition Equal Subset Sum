@@ -1,0 +1,21 @@
+# dp: flatten dp to mark position
+# time complexity: O(n*sum(nums))
+# space complexity: O(sum(nums))
+class Solution:
+    def canPartition(self, nums: List[int]) -> bool:
+        s = sum(nums)
+        if s%2 == 1:
+            return False
+        t = s//2
+        dp = [1]+[0]*t
+        seen = set([0])
+        for i in nums:
+            tmp = set()
+            for j in seen:
+                if i+j<=t:
+                    dp[i+j] = 1
+                    tmp.add(i+j)
+                    if i+j == t:
+                        return True
+            seen = seen|tmp
+        return False
